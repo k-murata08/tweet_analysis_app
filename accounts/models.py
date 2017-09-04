@@ -8,7 +8,9 @@ from tweet_analysis import const as tc
 
 
 class Profile(models.Model):
-    role = models.IntegerField(blank=False, choices=tc.USER_ROLES)
+    ROLES = tc.USER_ROLES
+    
+    role = models.IntegerField(blank=False, choices=ROLES)
     user = models.OneToOneField(User)
 
 
