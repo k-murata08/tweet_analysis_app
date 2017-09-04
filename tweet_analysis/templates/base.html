@@ -4,12 +4,97 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>HTML 5 complete</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Tweet Analysis</title>
+        <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/custom.css' %}" rel="stylesheet">
     </head>
-    <body>
-        <script src="{% static 'js/vendor/vue.min.js' %}"></script>
-        <script stc="{% static 'js/vendor/axios.min.js' %}"></script>
-        {% block content %}
-        {% endblock %}
+    <body class="nav-md">
+        <script src="{% static 'js/vue.min.js' %}"></script>
+        <script stc="{% static 'js/axios.min.js' %}"></script>
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col scroll-view">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a href="index.html" class="site_title"><span>Tweet Analysis</span></a>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <!-- menu profile quick info -->
+                        <div class="profile clearfix">
+                            <div class="profile_info">
+                                <span>Welcome,</span>
+                                <h2>Murata</h2>
+                            </div>
+                        </div>
+                        <!-- /menu profile quick info -->
+                        <br />
+
+                        <!-- sidebar menu -->
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>General</h3>
+                                <ul class="nav side-menu">
+                                    <li><a href="#"><i class="fa fa-home"></i> ホーム </a></li>
+                                    <li><a><i class="fa fa-user"></i> アカウント <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="#">ユーザ登録</a></li>
+                                            <li><a href="#">Twitterアカウント登録</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a><i class="fa fa-desktop"></i> 分析 <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="#">共通フォロー分析</a></li>
+                                            <li><a href="#">共通RT分析</a></li>
+                                            <li><a href="#">共通ファボ分析</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="menu_section">
+                                <h3>Link</h3>
+                                <ul class="nav side-menu">
+                                    <li><a href="#"><i class="fa fa-github"></i> GitHub </a></li>
+                                    <li><a><i class="fa fa-link"></i> IDチェッカー </a>
+                                    </div>
+                                </div>
+                                <!-- /sidebar menu -->
+
+                                <!-- /menu footer buttons -->
+                                <div class="sidebar-footer hidden-small">
+                                    <a data-toggle="tooltip" data-placement="top" title="Settings">
+                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                    </a>
+                                    <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                                    </a>
+                                </div>
+                                <!-- /menu footer buttons -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right_col" role="main">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                    <!-- footer content -->
+                    <footer>
+                        <div class="pull-right">
+                            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </footer>
+                    <!-- /footer content -->
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
     </body>
 </html>
