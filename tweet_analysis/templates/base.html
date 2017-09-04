@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,6 +7,8 @@
         <title>HTML 5 complete</title>
     </head>
     <body>
+        <script src="{% static 'js/vendor/vue.min.js' %}"></script>
+        <script stc="{% static 'js/vendor/axios.min.js' %}"></script>
         {% block content %}
         {% endblock %}
     </body>
