@@ -24,7 +24,7 @@ class TwitterAccount(models.Model):
         cls.objects.create(twitter_id=twitter_id, username=username, image_url=image_url)
 
 
-class OauthKey(models.Model):
+class OathKey(models.Model):
     consumer_key = models.CharField(max_length=50, blank=False)
     consumer_secret = models.CharField(max_length=50, blank=False)
     access_token = models.CharField(max_length=50, blank=False)

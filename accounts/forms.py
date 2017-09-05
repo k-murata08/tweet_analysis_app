@@ -13,7 +13,7 @@ class TwitterNameForm(forms.Form):
     ))
 
 
-class OauthForm(forms.Form):
+class OathForm(forms.Form):
     consumer_key = forms.CharField(
         max_length=50,
         required=True,
