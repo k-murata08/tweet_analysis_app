@@ -1,25 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>ホーム</h3>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="dashboard_graph">
-            <div class="row x_title">
-                <div class="col-md-6">
-                    <h3>アカウントリスト <small>登録済みアカウント</small></h3>
-                </div>
-                <div class="col-md-6">
-                </div>
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>アカウントリスト <small>登録済みアカウント</small></h3>
             </div>
-            <div class="col-md-9 col-sm-9 col-xs-12">
-                <div class="demo-x_title">
-                    <h3>ここに色々書く</h3>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
-                <div class="x_title">
-                    <h2>Top Campaign Performance</h2>
-                    <div class="clearfix"></div>
+            <div class="x_content">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Twitter ID</th>
+                            <th>User Name</th>
+                            <th>Icon</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for account in accounts %}
+                        <tr>
+                            <td>{{ account.twitter_id }}</td>
+                            <td>{{ account.username }}</td>
+                            <td><img src="{{ account.image_url }}"></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
