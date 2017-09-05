@@ -30,3 +30,13 @@ class OathKey(models.Model):
     access_token = models.CharField(max_length=50, blank=False)
     access_token_secret = models.CharField(max_length=50, blank=False)
     twitter_id = models.CharField(max_length=30, blank=False)
+
+    @classmethod
+    def create_oath(cls, consumer_key, consumer_secret, access_token, access_token_secret, twitter_id):
+        cls.objects.create(
+            consumer_key=consumer_key,
+            consumer_secret=consumer_secret,
+            access_token=access_token,
+            access_token_secret=access_token_secret,
+            twitter_id=twitter_id
+        )

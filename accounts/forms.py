@@ -30,7 +30,7 @@ class OathForm(forms.Form):
                 'class':'form-control'
             }
     ))
-    access_key = forms.CharField(
+    access_token = forms.CharField(
         max_length=50,
         required=True,
         widget=forms.TextInput(
@@ -38,7 +38,7 @@ class OathForm(forms.Form):
                 'class':'form-control'
             }
     ))
-    access_key_secret = forms.CharField(
+    access_token_secret = forms.CharField(
         max_length=50,
         required=True,
         widget=forms.TextInput(

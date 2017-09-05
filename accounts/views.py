@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 
 from .forms import TwitterNameForm, OathForm
-from .models import TwitterAccount
+from .models import TwitterAccount, OathKey
 import utils as account_utils
 
 
@@ -45,7 +45,13 @@ def oath_add(request):
     if request.method == 'POST':
         form = OathForm(request.POST)
         if form.is_valid():
-            print "aiueo"
+            OathKey.create_oath(
+                form.cleaned_data['consumer_key'],
+                form.cleaned_data['consumer_secret'],
+                form.cleaned_data['access_token'],
+                form.cleaned_data['access_token_secret'],
+                form.cleaned_data['twitter_id']
+            )
             return redirect('index')
     else:
         form = OathForm
