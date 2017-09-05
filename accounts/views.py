@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from .forms import TwitterNameForm, OathForm
 from .models import TwitterAccount, OathKey
 import utils as account_utils
+import analysis.utils as analysis_utils
 
 
 def account_add(request):
@@ -26,7 +27,7 @@ def account_confirm(request, screen_name):
     profile = account_utils.get_user_profile(screen_name)
     if request.method == 'POST':
         TwitterAccount.create_account(profile['id'], profile['name'], profile['profile_image_url'])
-        return redirect('index')
+        return analysis_utils.redirect_index(request)
 
     else:
         try:
@@ -38,7 +39,7 @@ def account_confirm(request, screen_name):
             return render(request, 'account_form_confirm.html', context)
 
         except ValueError:
-            return redirect('account_add')
+            return analysis_utils.redirect_index(request)
 
 
 def oath_add(request):
@@ -52,7 +53,7 @@ def oath_add(request):
                 form.cleaned_data['access_token_secret'],
                 form.cleaned_data['twitter_id']
             )
-            return redirect('index')
+            return analysis_utils.redirect_index(request)
     else:
         form = OathForm
 
