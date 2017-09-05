@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 
-from .forms import TwitterNameForm
+from .forms import TwitterNameForm, OauthForm
 from .models import TwitterAccount
 import utils as account_utils
 
@@ -39,3 +39,17 @@ def account_confirm(request, screen_name):
 
         except ValueError:
             return redirect('account_add')
+
+
+def oauth_add(request):
+    if request.method == 'POST':
+        form = OauthForm(request.POST)
+        if form.is_valid():
+            print "aiueo"
+            return redirect('index')
+    else:
+        form = OauthForm
+
+    return render(request, 'oauth_form.html', {
+        'form': form
+    })

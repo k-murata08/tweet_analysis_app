@@ -22,3 +22,11 @@ class TwitterAccount(models.Model):
     @classmethod
     def create_account(cls, twitter_id, username, image_url):
         cls.objects.create(twitter_id=twitter_id, username=username, image_url=image_url)
+
+
+class OauthKey(models.Model):
+    consumer_key = models.CharField(max_length=50, blank=False)
+    consumer_secret = models.CharField(max_length=50, blank=False)
+    access_token = models.CharField(max_length=50, blank=False)
+    access_token_secret = models.CharField(max_length=50, blank=False)
+    twitter_id = models.CharField(max_length=30, blank=False)

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>認証キー登録</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>更新</h3>
+            </div>
+            <div class="x_content">
+                <form class="form-horizontal" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consumer_key">ConsumerKey </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.consumer_key }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consumer_secret">ConsumerSecret </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.consumer_secret }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="access_key">AccessKey </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.access_key }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="access_key_secret">AccessKeySecret </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.access_key_secret }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="twitter_id">TwitterID </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.twitter_id }}
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                            <button class="btn btn-primary" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
