@@ -12,10 +12,14 @@ def account_add(request):
         if form.is_valid():
             screen_name = form.cleaned_data['screen_name']
             print screen_name
-            return redirect('index')
+            return redirect('account_confirm')
     else:
         form = TwitterNameForm()
 
     return render(request, 'account_form.html', {
         'form': form
     })
+
+
+def account_confirm(request):
+    return render(request, 'account_form_confirm.html')
