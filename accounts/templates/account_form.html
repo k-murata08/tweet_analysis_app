@@ -13,12 +13,12 @@
                 <h3>新規</h3>
             </div>
             <div class="x_content">
-                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal" method="post">
+                    {% csrf_token %}
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Screen Name <span class="required">*</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="screen_name">Screen Name </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                            {{ form.screen_name }}
                         </div>
                     </div>
                     <div class="ln_solid"></div>
