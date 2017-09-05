@@ -18,3 +18,7 @@ class TwitterAccount(models.Model):
     twitter_id = models.CharField(blank=False, max_length=30)
     username = models.CharField(blank=False, max_length=30)
     image_url = models.URLField(blank=False)
+
+    @classmethod
+    def create_account(cls, twitter_id, username, image_url):
+        cls.objects.create(twitter_id=twitter_id, username=username, image_url=image_url)

@@ -23,6 +23,7 @@
                 </div>
                 <div class="ln_solid"></div>
                 <form id="demo-form2" data-parsley-validate class="form-horizontal" method="post">
+                    {% csrf_token %}
                     <div class="form-group" class="center-block">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5" style="padding:0px;">
                             <button class="btn btn-primary" type="button" onclick="history.back()">Back</button>
