@@ -3,8 +3,6 @@ from requests_oauthlib import OAuth1Session
 
 import json
 
-ANALYSYS_USER_ID = 740776275527237633
-
 
 def get_oath_session():
     """クエリを飛ばす時にしか使わない"""
@@ -25,17 +23,17 @@ def get_oath_session():
     return oath
 
 
-def get_user_profile():
+def get_user_profile(screen_name):
     """15分間に900回回せる"""
     url = "https://api.twitter.com/1.1/users/show.json?"
     params = {
-        "user_id": ANALYSYS_USER_ID,
+        "screen_name": screen_name,
         "include_entities": False
     }
     oath = get_oath_session()
-    responce = oath.get(url, params = params)
-    if responce.status_code != 200:
-        print "Error code: %d" %(responce.status_code)
-        return None
-    profile = json.loads(responce.text, 'utf-8')
+    response = oath.get(url, params=params)
+    if response.status_code != 200:
+        print "Error code: %d" % response.status_code
+        raise ValueError
+    profile = json.loads(response.text, 'utf-8')
     return profile
