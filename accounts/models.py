@@ -12,12 +12,14 @@ class Profile(models.Model):
 
     role = models.IntegerField(blank=False, choices=ROLES)
     user = models.OneToOneField(User)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class TwitterAccount(models.Model):
     twitter_id = models.CharField(blank=False, max_length=30)
     username = models.CharField(blank=False, max_length=30)
     image_url = models.URLField(blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def create_account(cls, twitter_id, username, image_url):
@@ -30,6 +32,7 @@ class OathKey(models.Model):
     access_token = models.CharField(max_length=50, blank=False)
     access_token_secret = models.CharField(max_length=50, blank=False)
     twitter_id = models.CharField(max_length=30, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @classmethod
     def create_oath(cls, consumer_key, consumer_secret, access_token, access_token_secret, twitter_id):
