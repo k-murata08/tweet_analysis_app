@@ -3,9 +3,10 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 
-from .forms import TwitterNameForm, OathForm
-from .models import TwitterAccount, OathKey
+from .forms import TwitterNameForm, OathForm, UserForm
+from .models import TwitterAccount, OathKey, Profile
 import utils as account_utils
 import analysis.utils as analysis_utils
 
@@ -13,6 +14,28 @@ import analysis.utils as analysis_utils
 def logout_to_index(request):
     logout(request)
     return redirect('index')
+
+
+def user_add(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid() and form.cleaned_data['password'] == form.cleaned_data['password_confirm']:
+            user = User.objects.create(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            Profile.objects.create(
+                role=form.cleaned_data['role'],
+                user=user
+            )
+            return analysis_utils.redirect_index(request)
+
+    else:
+        form = UserForm()
+
+    return render(request, 'user_form.html', {
+        'form': form
+    })
 
 
 def account_add(request):

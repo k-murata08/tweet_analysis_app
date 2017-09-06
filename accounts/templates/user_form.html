@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>ユーザ登録</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>新規</h3>
+            </div>
+            <div class="x_content">
+                <form class="form-horizontal" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consumer_key">UserName </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="consumer_secret">Password </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="access_token">Password(again) </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {{ form.password_confirm }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="access_token_secret">Role </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            {% for radio in form.role %}
+                            <label class="radio-inline">{{ radio.tag }}{{ radio.choice_label }}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                            <button class="btn btn-primary" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

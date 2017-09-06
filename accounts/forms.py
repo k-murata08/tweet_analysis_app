@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import forms
 
+import tweet_analysis.const as ta_const
+
 
 class TwitterNameForm(forms.Form):
     screen_name = forms.CharField(
@@ -54,3 +56,41 @@ class OathForm(forms.Form):
                 'class':'form-control'
             }
     ))
+
+
+class UserForm(forms.Form):
+    username = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'class':'form-control'
+            }
+        )
+    )
+    password = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control'
+            }
+        )
+    )
+    password_confirm = forms.CharField(
+        max_length=20,
+        required=True,
+        widget=forms.PasswordInput(
+            attrs={
+                'class':'form-control'
+            }
+        )
+    )
+    role = forms.ChoiceField(
+        widget=forms.RadioSelect(
+            attrs={
+                'class':'flat'
+            }
+        ),
+        choices=ta_const.USER_ROLES
+    )
