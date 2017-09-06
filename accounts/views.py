@@ -2,11 +2,17 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 
 from .forms import TwitterNameForm, OathForm
 from .models import TwitterAccount, OathKey
 import utils as account_utils
 import analysis.utils as analysis_utils
+
+
+def logout_to_index(request):
+    logout(request)
+    return redirect('index')
 
 
 def account_add(request):
