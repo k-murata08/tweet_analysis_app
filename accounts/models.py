@@ -43,3 +43,7 @@ class OathKey(models.Model):
             access_token_secret=access_token_secret,
             twitter_id=twitter_id
         )
+
+    @classmethod
+    def get_oath(cls):
+        return cls.objects.latest('created_at')
