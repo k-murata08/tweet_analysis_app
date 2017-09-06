@@ -37,6 +37,50 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>TwitterAPI認証キー <small>使用されるキー</small></h3>
+            </div>
+            <div class="x_content">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Consumer Key</td>
+                            <td>{{ oath_key.consumer_key }}</td>
+                        </tr>
+                        <tr>
+                            <td>Consumer Secret</td>
+                            <td>{{ oath_key.consumer_secret }}</td>
+                        </tr>
+                        <tr>
+                            <td>Access Token</td>
+                            <td>{{ oath_key.access_token }}</td>
+                        </tr>
+                        <tr>
+                            <td>Access Token Secret</td>
+                            <td>{{ oath_key.access_token_secret }}</td>
+                        </tr>
+                        <tr>
+                            <td>Twitter ID</td>
+                            <td>{{ oath_key.twitter_id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <br />
 <!-- /page content -->
 {% endblock %}
