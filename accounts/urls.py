@@ -1,10 +1,11 @@
 from django.conf.urls import url
+from django.contrib.auth.views import login
 
 from . import views
 
 urlpatterns = [
+    url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
     url(r'^account/add/$', views.account_add, name='account_add'),
     url(r'^account/add/(?P<screen_name>[\w\-]+)/$', views.account_confirm, name='account_confirm'),
     url(r'^oath/add/$', views.oath_add, name='oath_add'),
-
 ]
