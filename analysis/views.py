@@ -27,3 +27,17 @@ def common_follow_form(request):
         'form': form
     })
 
+
+def common_fav_form(request):
+    if request.method == 'POST':
+        form = AnalysisAccountForm(request.POST)
+        if form.is_valid():
+            print "aaa"
+            return analysis_utils.redirect_index(request)
+
+    else:
+        form = AnalysisAccountForm()
+
+    return render(request, 'common_fav_form.html', {
+        'form': form
+    })
