@@ -6,6 +6,7 @@ from django.shortcuts import render
 
 import utils as analysis_utils
 from .forms import AnalysisAccountForm
+from accounts.models import TwitterAccount
 
 
 @login_required
@@ -17,7 +18,9 @@ def common_follow_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            print "aaa"
+            twitter_id = TwitterAccount.objects.get(id=request.POST['accounts']).twitter_id
+
+            analysis_utils.analysis_follower_friends(twitter_id)
             return analysis_utils.redirect_index(request)
 
     else:

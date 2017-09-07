@@ -41,6 +41,19 @@ def get_user_profile(screen_name):
     return fetch_result(url, params)
 
 
+def get_user_profile_from_id(user_id):
+    """
+    ユーザネームからプロフィールのjsonを取得
+    15分間に900回回せる
+    """
+    url = "https://api.twitter.com/1.1/users/show.json?"
+    params = {
+        "user_id": user_id,
+        "include_entities": False
+    }
+    return fetch_result(url, params)
+
+
 def get_user_profiles(user_ids):
     """
     user_idのリストから、それらのプロフィールを取得
