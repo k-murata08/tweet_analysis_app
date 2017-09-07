@@ -21,6 +21,9 @@ class TwitterAccount(models.Model):
     image_url = models.URLField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return self.username
+
     @classmethod
     def create_account(cls, twitter_id, username, image_url):
         cls.objects.create(twitter_id=twitter_id, username=username, image_url=image_url)
