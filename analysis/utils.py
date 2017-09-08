@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.contrib.auth.models import User
 
@@ -15,7 +16,10 @@ import traceback
 
 def redirect_index(request):
     accounts = TwitterAccount.objects.all()
-    oath_key = OathKey.get_oath()
+    try:
+        oath_key = OathKey.get_oath()
+    except ObjectDoesNotExist:
+        oath_key = None
     users = User.objects.all()
 
     return render(request, 'index.html', {
