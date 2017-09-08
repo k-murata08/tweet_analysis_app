@@ -3,7 +3,9 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from accounts.models import TwitterAccount, OathKey
+from .models import Analysis, CommonFollowRecord
 import accounts.utils as ac_utils
+import tweet_analysis.const as ta_const
 
 from time import sleep
 from datetime import datetime as dt
@@ -24,22 +26,6 @@ def redirect_index(request):
 
 
 # --------------- 分析用関数 ----------------------
-
-class Friend:
-    """
-    フォロイークラス
-    共通フォロー分析で使用
-    """
-    def __init__(self, id, name, count, followers_count, bio, follow_rate, follow_ratio, factor):
-        self.id = id
-        self.name = name
-        self.count = count
-        self.followers_count = followers_count
-        self.bio = bio
-        self.follow_rate = follow_rate
-        self.follow_ratio = follow_ratio
-        self.factor = factor
-
 
 class TwUser:
     """
@@ -159,19 +145,25 @@ def create_friend_ids_from_users(users):
     return friend_ids
 
 
-def analysis_follower_friends(account_id):
+def analysis_follower_friends(request_user, account):
     """
     フォロワーの中でVALID_USER_MAX_CREATED_AT年以前の登録ユーザをフォロー数の降順に並べて
     分析したアカウントをFriendオブジェクトにしてリストで返す
     """
-    follower_ids = get_follower_ids(user_id=account_id)
+    analysis_record = Analysis.create(
+        account=account,
+        user=request_user,
+        category=ta_const.ANALYSIS_CATEGORY['common_follow']
+    )
+
+    follower_ids = get_follower_ids(user_id=account.twitter_id)
     followers = create_users_from_ids(user_ids=follower_ids)
 
     # VALID_USER_MAX_CREATED_AT年以前のユーザで絞り込み,
     # 非公開アカウントを弾き,
     # フォロー数の多い順で並べる
-    followers = filter(lambda obj:obj.created_at.year <= 2016, followers)
-    followers = filter(lambda obj:obj.is_protected == False, followers)
+    followers = filter(lambda obj: obj.created_at.year <= 2016, followers)
+    followers = filter(lambda obj: obj.is_protected is False, followers)
     followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=True)
 
     followers = followers[0:3]
@@ -183,21 +175,12 @@ def analysis_follower_friends(account_id):
     friends_counter_dict = collections.Counter(friend_ids)
 
     # 自分をFriendオブジェクトに登録するのは係数計算の部分で情報が必要なため
-    my_prof = ac_utils.get_user_profile_from_id(account_id)
-    me_as_friend_obj = Friend(
-        id=account_id,
-        name=my_prof['name'],
-        count=friends_counter_dict[account_id],
-        followers_count=my_prof['followers_count'],
-        bio=my_prof['description'].replace('\n', '').replace('\r', ''),
-        follow_rate=100.00,
-        follow_ratio=1.0,
-        factor=1000
-    )
+    my_prof = ac_utils.get_user_profile_from_id(account.twitter_id)
+    my_count = friends_counter_dict[account.twitter_id]
+    my_followers_count = my_prof['followers_count']
     sleep(1)
 
     # フレンドのクラスの配列を作る
-    friends = []
     step = 0
     for key, value in friends_counter_dict.items():
         step += 1
@@ -218,13 +201,13 @@ def analysis_follower_friends(account_id):
             continue
 
         # フォロー率、フォロー比、係数を計算
-        if me_as_friend_obj.count != 0:
-            follow_rate = float(value) / float(me_as_friend_obj.count)
+        if my_count != 0:
+            follow_rate = float(value) / float(my_count)
         else:
             follow_rate = 0
 
-        if me_as_friend_obj.followers_count != 0:
-            follow_ratio = float(prof['followers_count']) / float(me_as_friend_obj.followers_count)
+        if my_followers_count != 0:
+            follow_ratio = float(prof['followers_count']) / float(my_followers_count)
         else:
             follow_ratio = 0
 
@@ -233,19 +216,14 @@ def analysis_follower_friends(account_id):
         else:
             factor = 0
 
-        friend = Friend(
-            id=key,
-            name=prof['name'],
-            count=value,
+        CommonFollowRecord.create(
+            twitter_id=key,
+            username=prof['name'],
+            common_count=value,
             followers_count=prof['followers_count'],
-            bio=prof['description'].replace('\n', '').replace('\r', ''),
-            follow_rate=round(follow_rate*100, 2),
+            follow_rate=round(follow_rate * 100, 2),
             follow_ratio=round(follow_ratio, 1),
-            factor=round(factor, 1)
+            factor=round(factor, 1),
+            analysis=analysis_record
         )
-        friends.append(friend)
         sleep(1)
-
-    # フォローされている数の降順に並び替え
-    friends = sorted(friends, key=lambda u: u.count, reverse=True)
-    return friends

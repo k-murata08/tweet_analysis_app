@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.db import transaction
 
 import utils as analysis_utils
 from .forms import AnalysisAccountForm
@@ -14,13 +15,14 @@ def index(request):
     return analysis_utils.redirect_index(request)
 
 
+@transaction.atomic
 def common_follow_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            twitter_id = TwitterAccount.objects.get(id=request.POST['accounts']).twitter_id
+            account = TwitterAccount.objects.get(id=request.POST['accounts'])
 
-            analysis_utils.analysis_follower_friends(twitter_id)
+            analysis_utils.analysis_follower_friends(request.user, account)
             return analysis_utils.redirect_index(request)
 
     else:
