@@ -203,11 +203,11 @@ def analysis_follower_friends(account_id):
         step += 1
         print_step_log("CreateFriendList", step, len(friends_counter_dict))
         # 何人以上のアカウントをとってくるか
-        if value <= 0:
+        if value <= 1:
             continue
 
         try:
-            prof = ac_utils.get_user_profile(key)
+            prof = ac_utils.get_user_profile_from_id(key)
         except ValueError:
             traceback.print_exc()
             sleep(1)
