@@ -140,6 +140,7 @@ def create_friend_ids_from_users(users):
             friend_ids.extend(ids_cursor[0])
             cursor = ids_cursor[1]
 
+            cursor = 0
             if cursor == 0:
                 sleep(60)
                 break
@@ -170,7 +171,7 @@ def analysis_follower_friends(request_user, account):
     followers = filter(lambda obj: obj.is_protected is False, followers)
     followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=True)
 
-    followers = followers[0:3]
+    followers = followers[0:2]
 
     # フォロワーがフォローしている人
     friend_ids = create_friend_ids_from_users(users=followers)

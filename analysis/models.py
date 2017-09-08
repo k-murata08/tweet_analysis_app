@@ -13,7 +13,7 @@ class Analysis(models.Model):
 
     @classmethod
     def create(cls, account, user, category):
-        cls.objects.create(account=account, user=user, category=category)
+        return cls.objects.create(account=account, user=user, category=category)
 
 
 class CommonFollowRecord(models.Model):
