@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>分析結果</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>{{ analysis.created_at }}</h3>
+            </div>
+            <div class="x_content">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>UserName</th>
+                            <th>共通カウント</th>
+                            <th>フォロワー数</th>
+                            <th>フォロー率</th>
+                            <th>フォロワー比</th>
+                            <th>factor</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.username }}</td>
+                            <td>{{ record.common_count }}</td>
+                            <td>{{ record.followers_count }}</td>
+                            <td>{{ record.follow_rate }}</td>
+                            <td>{{ record.follow_ratio }}</td>
+                            <td>{{ record.factor }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
