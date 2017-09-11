@@ -15,14 +15,13 @@ def index(request):
     return analysis_utils.redirect_index(request)
 
 
-@transaction.atomic
 def common_follow_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
             account = TwitterAccount.objects.get(id=request.POST['accounts'])
 
-            analysis_utils.analysis_follower_friends(request.user, account)
+            analysis_utils.analysis_follower_friends(request.user, account, request.POST['common_count'], request.POST['follower_count'])
             return analysis_utils.redirect_index(request)
 
     else:

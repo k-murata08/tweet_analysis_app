@@ -150,7 +150,7 @@ def create_friend_ids_from_users(users):
     return friend_ids
 
 
-def analysis_follower_friends(request_user, account):
+def analysis_follower_friends(request_user, account, common_count, follower_count):
     """
     フォロワーの中でVALID_USER_MAX_CREATED_AT年以前の登録ユーザをフォロー数の降順に並べて
     分析したアカウントをFriendオブジェクトにしてリストで返す
@@ -171,7 +171,7 @@ def analysis_follower_friends(request_user, account):
     followers = filter(lambda obj: obj.is_protected is False, followers)
     followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=True)
 
-    followers = followers[0:2]
+    followers = followers[0:int(follower_count)]
 
     # フォロワーがフォローしている人
     friend_ids = create_friend_ids_from_users(users=followers)
@@ -191,7 +191,7 @@ def analysis_follower_friends(request_user, account):
         step += 1
         print_step_log("CreateFriendList", step, len(friends_counter_dict))
         # 何人以上のアカウントをとってくるか
-        if value <= 1:
+        if value < int(common_count):
             continue
 
         try:

@@ -13,3 +13,17 @@ class AnalysisAccountForm(forms.Form):
             }
         )
     )
+    common_count = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    follower_count = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
