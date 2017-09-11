@@ -140,7 +140,6 @@ def create_friend_ids_from_users(users):
             friend_ids.extend(ids_cursor[0])
             cursor = ids_cursor[1]
 
-            cursor = 0
             if cursor == 0:
                 sleep(60)
                 break
