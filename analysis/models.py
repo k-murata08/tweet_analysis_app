@@ -56,3 +56,21 @@ class CommonFavoriteRecord(models.Model):
             text=text,
             analysis=analysis
         )
+
+
+class CommonRetweetRecord(models.Model):
+    tweet_id = models.CharField(blank=False, max_length=30)
+    username = models.CharField(blank=False, max_length=30)
+    common_count = models.PositiveIntegerField(blank=False)
+    text = models.CharField(blank=False, max_length=200)
+    analysis = models.ForeignKey('Analysis')
+
+    @classmethod
+    def create(cls, tweet_id, username, common_count, text, analysis):
+        return cls.objects.create(
+            tweet_id=tweet_id,
+            username=username,
+            common_count=common_count,
+            text=text,
+            analysis=analysis
+        )
