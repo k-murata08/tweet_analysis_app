@@ -284,7 +284,7 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
 
     step = 0
     for key, value in favorites_counter_dict.items():
-        print_step_log("GetFavosTweet", step, len(favorites_counter_dict))
+        print_step_log("GetFavorites", step, len(favorites_counter_dict))
         step += 1
         if value < int(common_count):
             continue

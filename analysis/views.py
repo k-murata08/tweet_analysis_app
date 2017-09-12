@@ -28,8 +28,9 @@ def common_follow_form(request):
     else:
         form = AnalysisAccountForm()
 
-    return render(request, 'common_follow_form.html', {
-        'form': form
+    return render(request, 'common_analysis_form.html', {
+        'form': form,
+        'title': '共通フォロー分析'
     })
 
 
@@ -45,8 +46,9 @@ def common_fav_form(request):
     else:
         form = AnalysisAccountForm()
 
-    return render(request, 'common_fav_form.html', {
-        'form': form
+    return render(request, 'common_analysis_form.html', {
+        'form': form,
+        'title': '共通ファボ分析'
     })
 
 
@@ -60,8 +62,9 @@ def common_rt_form(request):
     else:
         form = AnalysisAccountForm()
 
-    return render(request, 'common_rt_form.html', {
-        'form': form
+    return render(request, 'common_analysis_form.html', {
+        'form': form,
+        'title': '共通RT分析'
     })
 
 
