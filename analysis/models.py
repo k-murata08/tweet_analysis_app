@@ -22,7 +22,7 @@ class CommonFollowRecord(models.Model):
     common_count = models.PositiveIntegerField(blank=False)
     followers_count = models.PositiveIntegerField(blank=False)
     follow_rate = models.FloatField(blank=False)
-    follow_ratio = models.FloatField(blank=False)
+    follower_ratio = models.FloatField(blank=False)
     factor = models.FloatField(blank=False)
     analysis = models.ForeignKey('Analysis')
 
