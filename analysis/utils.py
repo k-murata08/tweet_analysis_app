@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from accounts.models import TwitterAccount, OathKey
-from .models import Analysis, CommonFollowRecord
+from .models import Analysis, CommonFollowRecord, CommonFavoriteRecord
 import accounts.utils as ac_utils
 import tweet_analysis.const as ta_const
 
@@ -149,6 +149,33 @@ def create_friend_ids_from_users(users):
     return friend_ids
 
 
+def get_favorites_from_users(users):
+    """
+    Userオブジェクトリストから
+    そのユーザのファボツイート(200件/人)を返す
+    """
+    favorite_tweet_ids = []
+    for index, user in enumerate(users):
+        print_step_log("CreateFavoritesList", index, len(users))
+        try:
+            favs = ac_utils.get_favorite_tweets(user.id, 200)
+        except Exception:
+            traceback.print_exc()
+            sleep(12)
+            continue
+
+        if favs is None or favs == []:
+            sleep(12)
+            continue
+
+        for fav in favs:
+            favorite_tweet_ids.append(fav['id'])
+        sleep(12)
+
+    return favorite_tweet_ids
+
+
+# ----- 分析関数 ---------
 def analysis_follower_friends(request_user, account, common_count, follower_count):
     """
     フォロワーの中でVALID_USER_MAX_CREATED_AT年以前の登録ユーザをフォロー数の降順に並べて
@@ -228,6 +255,56 @@ def analysis_follower_friends(request_user, account, common_count, follower_coun
             follow_rate=round(follow_rate * 100, 2),
             follow_ratio=round(follow_ratio, 1),
             factor=round(factor, 1),
+            analysis=analysis_record
+        )
+        sleep(1)
+
+
+def analysis_follower_favorite(request_user, account, common_count, follower_count):
+    """
+    フォロワーの共通ファボ分析
+    """
+    analysis_record = Analysis.create(
+        account=account,
+        user=request_user,
+        category=ta_const.ANALYSIS_CATEGORY['common_fav']
+    )
+    follower_ids = get_follower_ids(user_id=account.twitter_id)
+    followers = create_users_from_ids(user_ids=follower_ids)
+
+    followers = filter(lambda obj:obj.created_at.year <= C.VALID_USER_MAX_CREATED_AT , followers)
+    followers = filter(lambda obj:obj.is_protected == False, followers)
+    followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=False)
+    followers = followers[0:int(follower_count)]
+
+    favorites = get_favorites_from_users(followers)
+
+    # ファボツイートのIDをキーにして、ファボツイートが何人にファボされているかを格納
+    favorites_counter_dict = collections.Counter(favorites)
+
+    step = 0
+    for key, value in favorites_counter_dict.items():
+        print_step_log("GetFavosTweet", step, len(favorites_counter_dict))
+        step += 1
+        if value < int(common_count):
+            continue
+
+        try:
+            tweet = ac_utils.get_tweet(key)
+        except ValueError:
+            traceback.print_exc()
+            sleep(1)
+            continue
+
+        if tweet is None or tweet == []:
+            sleep(1)
+            continue
+
+        CommonFavoriteRecord.create(
+            tweet_id=key,
+            username=tweet['user']['name'],
+            common_count=value,
+            text=tweet['text'],
             analysis=analysis_record
         )
         sleep(1)
