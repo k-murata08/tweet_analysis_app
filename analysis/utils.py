@@ -272,8 +272,8 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
     follower_ids = get_follower_ids(user_id=account.twitter_id)
     followers = create_users_from_ids(user_ids=follower_ids)
 
-    followers = filter(lambda obj:obj.created_at.year <= C.VALID_USER_MAX_CREATED_AT , followers)
-    followers = filter(lambda obj:obj.is_protected == False, followers)
+    followers = filter(lambda obj: obj.created_at.year <= 2016, followers)
+    followers = filter(lambda obj: obj.is_protected is False, followers)
     followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=False)
     followers = followers[0:int(follower_count)]
 

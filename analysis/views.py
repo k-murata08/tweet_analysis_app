@@ -30,7 +30,7 @@ def common_follow_form(request):
 
     return render(request, 'common_analysis_form.html', {
         'form': form,
-        'title': '共通フォロー分析'
+        'category': 'フォロー'
     })
 
 
@@ -48,7 +48,7 @@ def common_fav_form(request):
 
     return render(request, 'common_analysis_form.html', {
         'form': form,
-        'title': '共通ファボ分析'
+        'category': 'ファボ'
     })
 
 
@@ -64,7 +64,7 @@ def common_rt_form(request):
 
     return render(request, 'common_analysis_form.html', {
         'form': form,
-        'title': '共通RT分析'
+        'category': 'RT'
     })
 
 
