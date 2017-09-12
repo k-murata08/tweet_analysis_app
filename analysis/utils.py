@@ -66,7 +66,7 @@ def get_follower_ids(user_id):
         print "CreateFollowerIDs"
         try:
             f_ids_cursor = ac_utils.get_follower_ids(user_id, 5000, cursor)
-        except Exception:
+        except ValueError:
             traceback.print_exc()
             break
 
@@ -92,7 +92,7 @@ def create_users_from_ids(user_ids):
         print_step_log("CreateUsersList", index, len(user_ids_list))
         try:
             profs = ac_utils.get_user_profiles(ids)
-        except Exception:
+        except ValueError:
             traceback.print_exc()
             sleep(1)
             continue
@@ -128,7 +128,7 @@ def create_friend_ids_from_users(users):
         for i in range(10):
             try:
                 ids_cursor = ac_utils.get_friend_ids(user.id, 5000, cursor)
-            except Exception:
+            except ValueError:
                 traceback.print_exc()
                 sleep(60)
                 break
@@ -159,7 +159,7 @@ def get_favorites_from_users(users):
         print_step_log("CreateFavoritesList", index, len(users))
         try:
             favs = ac_utils.get_favorite_tweets(user.id, 200)
-        except Exception:
+        except ValueError:
             traceback.print_exc()
             sleep(12)
             continue
