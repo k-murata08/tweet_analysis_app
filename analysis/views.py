@@ -56,7 +56,9 @@ def common_rt_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            print "aaa"
+            account = TwitterAccount.objects.get(id=request.POST['accounts'])
+
+            analysis_utils.analysis_follower_retweet(request.user, account, request.POST['common_count'], request.POST['follower_count'])
             return analysis_utils.redirect_index(request)
 
     else:

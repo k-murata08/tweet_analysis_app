@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from accounts.models import TwitterAccount, OathKey
-from .models import Analysis, CommonFollowRecord, CommonFavoriteRecord
+from .models import Analysis, CommonFollowRecord, CommonFavoriteRecord, CommonRetweetRecord
 import accounts.utils as ac_utils
 import tweet_analysis.const as ta_const
 
@@ -301,6 +301,73 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
             continue
 
         CommonFavoriteRecord.create(
+            tweet_id=key,
+            username=tweet['user']['name'],
+            common_count=value,
+            text=tweet['text'],
+            analysis=analysis_record
+        )
+        sleep(1)
+
+
+def analysis_follower_retweet(request_user, account, common_count, follower_count):
+    """
+    共通リツイート分析
+    """
+    analysis_record = Analysis.create(
+        account=account,
+        user=request_user,
+        category=ta_const.ANALYSIS_CATEGORY['common_rt']
+    )
+    follower_ids = get_follower_ids(user_id=account.twitter_id)
+    followers = create_users_from_ids(user_ids=follower_ids)
+
+    followers = filter(lambda obj:obj.created_at.year <= 2016 , followers)
+    followers = filter(lambda obj:obj.is_protected is False, followers)
+    followers = sorted(followers, key=lambda obj: obj.friends_count, reverse=False)
+    followers = followers[0:int(follower_count)]
+
+    retweet_ids = []
+    for index, follower in enumerate(followers):
+        print_step_log("CreateRetweetList", index, len(followers))
+        try:
+            follower_tweets = ac_utils.get_user_timeline(user_id=follower.id, tweets_count=200, include_rts=True)
+            follower_retweets = filter(lambda obj: obj.has_key("retweeted_status"), follower_tweets)
+            retweet_tweets = [retweet["retweeted_status"] for retweet in follower_retweets]
+        except ValueError:
+            traceback.print_exc()
+            sleep(1)
+            continue
+
+        if retweet_tweets is None or retweet_tweets == []:
+            sleep(1)
+            continue
+
+        ids = [retweet['id'] for retweet in retweet_tweets]
+        retweet_ids.extend(ids)
+        sleep(1)
+
+    retweet_counter_dict = collections.Counter(retweet_ids)
+
+    step = 0
+    for key, value in retweet_counter_dict.items():
+        print_step_log("GetTweet", step, len(retweet_counter_dict))
+        step += 1
+        if value < int(common_count):
+            continue
+
+        try:
+            tweet = ac_utils.get_tweet(key)
+        except ValueError:
+            traceback.print_exc()
+            sleep(1)
+            continue
+
+        if tweet is None or tweet == []:
+            sleep(1)
+            continue
+
+        CommonRetweetRecord.create(
             tweet_id=key,
             username=tweet['user']['name'],
             common_count=value,
