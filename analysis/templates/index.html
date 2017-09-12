@@ -105,7 +105,7 @@
                         <tr>
                             <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
-                            {% if user.profile.role == 2 %}
+                            {% if user.profile.role == user_roles.general %}
                             <td>general</td>
                             {% else %}
                             <td>admin</td>

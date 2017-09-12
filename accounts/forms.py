@@ -92,5 +92,5 @@ class UserForm(forms.Form):
                 'class':'flat'
             }
         ),
-        choices=ta_const.USER_ROLES
+        choices=ta_const.USER_ROLE_CHOICES
     )
