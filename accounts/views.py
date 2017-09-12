@@ -20,7 +20,7 @@ def user_add(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid() and form.cleaned_data['password'] == form.cleaned_data['password_confirm']:
-            user = User.objects.create(
+            user = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
