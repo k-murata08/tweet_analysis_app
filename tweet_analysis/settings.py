@@ -29,9 +29,7 @@ STATIC_URL = '/static/'
 SECRET_KEY = '40+cp)^07*&zh#7bu+66=wa1w*xhm6%&1d_4(@%6$01z!fgd7f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 
 # Application definition
@@ -44,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
-    'analysis'
+    'analysis',
+    'gunicorn'
 ]
 
 MIDDLEWARE = [
@@ -82,11 +81,10 @@ WSGI_APPLICATION = 'tweet_analysis.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config()
 }
 
 
