@@ -22,7 +22,12 @@ def common_follow_form(request):
         if form.is_valid():
             account = TwitterAccount.objects.get(id=request.POST['accounts'])
 
-            analysis_utils.analysis_follower_friends(request.user, account, request.POST['common_count'], request.POST['follower_count'])
+            analysis_utils.analysis_follower_friends(
+                request.user,
+                account,
+                int(request.POST['common_count']),
+                int(request.POST['follower_count'])
+            )
             return analysis_utils.redirect_index(request)
 
     else:
@@ -40,7 +45,12 @@ def common_fav_form(request):
         if form.is_valid():
             account = TwitterAccount.objects.get(id=request.POST['accounts'])
 
-            analysis_utils.analysis_follower_favorite(request.user, account, request.POST['common_count'], request.POST['follower_count'])
+            analysis_utils.analysis_follower_favorite(
+                request.user,
+                account,
+                int(request.POST['common_count']),
+                int(request.POST['follower_count'])
+            )
             return analysis_utils.redirect_index(request)
 
     else:
@@ -58,7 +68,12 @@ def common_rt_form(request):
         if form.is_valid():
             account = TwitterAccount.objects.get(id=request.POST['accounts'])
 
-            analysis_utils.analysis_follower_retweet(request.user, account, request.POST['common_count'], request.POST['follower_count'])
+            analysis_utils.analysis_follower_retweet(
+                request.user,
+                account,
+                int(request.POST['common_count']),
+                int(request.POST['follower_count'])
+            )
             return analysis_utils.redirect_index(request)
 
     else:
@@ -77,7 +92,7 @@ def common_follow_result(request):
 
     return render(request, 'result.html', {
         'analysis': analysis,
-        'title': "共通フォロー分析",
+        'category_name': 'フォロー',
         'category': ta_const.ANALYSIS_CATEGORY
     })
 
@@ -98,7 +113,7 @@ def common_fav_result(request):
 
     return render(request, 'result.html', {
         'analysis': analysis,
-        'title': '共通ファボ分析',
+        'category_name': 'ファボ',
         'category': ta_const.ANALYSIS_CATEGORY
     })
 
@@ -119,7 +134,7 @@ def common_rt_result(request):
 
     return render(request, 'result.html', {
         'analysis': analysis,
-        'title': '共通RT分析',
+        'category_name': 'RT',
         'category': ta_const.ANALYSIS_CATEGORY
     })
 

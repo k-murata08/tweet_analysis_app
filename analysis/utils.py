@@ -184,7 +184,9 @@ def analysis_follower_friends(request_user, account, common_count, follower_coun
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
-        category=ta_const.ANALYSIS_CATEGORY['common_follow']
+        category=ta_const.ANALYSIS_CATEGORY['common_follow'],
+        follower_count=follower_count,
+        min_common_count=common_count,
     )
 
     follower_ids = get_follower_ids(user_id=account.twitter_id)
@@ -267,6 +269,8 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
+        follower_count=follower_count,
+        min_common_count=common_count,
         category=ta_const.ANALYSIS_CATEGORY['common_fav']
     )
     follower_ids = get_follower_ids(user_id=account.twitter_id)
@@ -317,6 +321,8 @@ def analysis_follower_retweet(request_user, account, common_count, follower_coun
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
+        follower_count=follower_count,
+        min_common_count=common_count,
         category=ta_const.ANALYSIS_CATEGORY['common_rt']
     )
     follower_ids = get_follower_ids(user_id=account.twitter_id)
