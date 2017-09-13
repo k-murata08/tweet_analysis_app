@@ -29,7 +29,7 @@ STATIC_URL = '/static/'
 SECRET_KEY = '40+cp)^07*&zh#7bu+66=wa1w*xhm6%&1d_4(@%6$01z!fgd7f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 # Application definition
