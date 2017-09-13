@@ -2,6 +2,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.db import connection
 
 from accounts.models import TwitterAccount, OathKey
 from .models import Analysis, CommonFollowRecord, CommonFavoriteRecord, CommonRetweetRecord
@@ -22,14 +23,35 @@ def redirect_index(request):
         oath_key = None
     users = User.objects.all()
 
+    tasks = get_background_tasks()
+
     return render(request, 'index.html', {
         'accounts': accounts,
         'oath_key': oath_key,
         'users': users,
+        'tasks': tasks
     })
 
 
+def get_background_tasks():
+    # 実行中のバックグラウンド処理を取得
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM background_task")
+    rows = cursor.fetchall()
+
+    tasks = []
+    for row in rows:
+        tasks.append({
+            'name': row[9],
+            'run_at': row[6],
+            'task_params': row[2]
+        })
+
+    return tasks
+
+
 # --------------- 分析用関数 ----------------------
+
 
 class TwUser:
     """
