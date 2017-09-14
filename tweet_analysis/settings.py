@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'analysis',
-    'gunicorn'
+    'gunicorn',
     'background_task'
 ]
 
