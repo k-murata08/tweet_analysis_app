@@ -207,7 +207,7 @@ def analysis_follower_friends(request_user_id, account_id, common_count, followe
     """
     request_user = User.objects.get(id=request_user_id)
     account = TwitterAccount.objects.get(id=account_id)
-    
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
