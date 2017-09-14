@@ -1,0 +1,11 @@
+[program:process_tasks]
+command=/.../bin/python ./manage.py process_tasks --settings=tweet_analysis.settings.prod
+directory=/...
+user=centos
+autostart=true
+autorestart=true
+stdout_logfile=/.../...log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=5
+stdout_capture_maxbytes=1MB
+redirect_stderr=true

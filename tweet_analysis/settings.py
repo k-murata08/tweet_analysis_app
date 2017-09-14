@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'analysis',
     'gunicorn'
+    'background_task'
 ]
 
 MIDDLEWARE = [

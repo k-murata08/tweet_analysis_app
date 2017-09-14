@@ -2,6 +2,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.db import connection
 
 from accounts.models import TwitterAccount, OathKey
 from .models import Analysis, CommonFollowRecord, CommonFavoriteRecord, CommonRetweetRecord
@@ -12,6 +13,7 @@ from time import sleep
 from datetime import datetime as dt
 import collections
 import traceback
+from background_task import background
 
 
 def redirect_index(request):
@@ -22,14 +24,35 @@ def redirect_index(request):
         oath_key = None
     users = User.objects.all()
 
+    tasks = get_background_tasks()
+
     return render(request, 'index.html', {
         'accounts': accounts,
         'oath_key': oath_key,
         'users': users,
+        'tasks': tasks
     })
 
 
+def get_background_tasks():
+    # 実行中のバックグラウンド処理を取得
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM background_task")
+    rows = cursor.fetchall()
+
+    tasks = []
+    for row in rows:
+        tasks.append({
+            'name': row[9],
+            'run_at': row[6],
+            'task_params': row[2]
+        })
+
+    return tasks
+
+
 # --------------- 分析用関数 ----------------------
+
 
 class TwUser:
     """
@@ -176,15 +199,21 @@ def get_favorites_from_users(users):
 
 
 # ----- 分析関数 ---------
-def analysis_follower_friends(request_user, account, common_count, follower_count):
+@background(queue='common_follow')
+def analysis_follower_friends(request_user_id, account_id, common_count, follower_count):
     """
     フォロワーの中でVALID_USER_MAX_CREATED_AT年以前の登録ユーザをフォロー数の降順に並べて
     分析したアカウントをFriendオブジェクトにしてリストで返す
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
-        category=ta_const.ANALYSIS_CATEGORY['common_follow']
+        category=ta_const.ANALYSIS_CATEGORY['common_follow'],
+        follower_count=follower_count,
+        min_common_count=common_count,
     )
 
     follower_ids = get_follower_ids(user_id=account.twitter_id)
@@ -260,13 +289,19 @@ def analysis_follower_friends(request_user, account, common_count, follower_coun
         sleep(1)
 
 
-def analysis_follower_favorite(request_user, account, common_count, follower_count):
+@background(queue='common_fav')
+def analysis_follower_favorite(request_user_id, account_id, common_count, follower_count):
     """
     フォロワーの共通ファボ分析
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
+        follower_count=follower_count,
+        min_common_count=common_count,
         category=ta_const.ANALYSIS_CATEGORY['common_fav']
     )
     follower_ids = get_follower_ids(user_id=account.twitter_id)
@@ -310,13 +345,19 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
         sleep(1)
 
 
-def analysis_follower_retweet(request_user, account, common_count, follower_count):
+@background(queue='common_rt')
+def analysis_follower_retweet(request_user_id, account_id, common_count, follower_count):
     """
     共通リツイート分析
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
+        follower_count=follower_count,
+        min_common_count=common_count,
         category=ta_const.ANALYSIS_CATEGORY['common_rt']
     )
     follower_ids = get_follower_ids(user_id=account.twitter_id)

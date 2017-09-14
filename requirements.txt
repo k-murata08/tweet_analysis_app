@@ -3,9 +3,12 @@ chardet==3.0.4
 dj-database-url==0.4.2
 dj-static==0.0.6
 Django==1.11.4
+django-background-tasks==1.1.11
+django-compat==1.0.14
 django-toolbelt==0.0.1
 gunicorn==19.7.1
 idna==2.6
+meld3==1.0.2
 MySQL-python==1.2.5
 oauthlib==2.0.2
 psycopg2==2.7.3.1
@@ -13,6 +16,8 @@ PyMySQL==0.7.11
 pytz==2017.2
 requests==2.18.4
 requests-oauthlib==0.8.0
+six==1.10.0
 static3==0.7.0
+supervisor==3.3.3
 urllib3==1.22
 whitenoise==3.3.0

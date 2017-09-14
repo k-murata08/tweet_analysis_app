@@ -8,12 +8,20 @@ from django.contrib.auth.models import User
 class Analysis(models.Model):
     account = models.ForeignKey('accounts.TwitterAccount')
     user = models.ForeignKey(User)
+    follower_count = models.PositiveIntegerField(blank=False)
+    min_common_count = models.PositiveIntegerField(blank=False)
     category = models.IntegerField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     @classmethod
-    def create(cls, account, user, category):
-        return cls.objects.create(account=account, user=user, category=category)
+    def create(cls, account, user, follower_count, min_common_count, category):
+        return cls.objects.create(
+            account=account,
+            user=user,
+            follower_count=follower_count,
+            min_common_count=min_common_count,
+            category=category
+        )
 
 
 class CommonFollowRecord(models.Model):
