@@ -13,6 +13,7 @@ from time import sleep
 from datetime import datetime as dt
 import collections
 import traceback
+from background_task import background
 
 
 def redirect_index(request):
@@ -198,11 +199,15 @@ def get_favorites_from_users(users):
 
 
 # ----- 分析関数 ---------
-def analysis_follower_friends(request_user, account, common_count, follower_count):
+@background(queue='common_follow')
+def analysis_follower_friends(request_user_id, account_id, common_count, follower_count):
     """
     フォロワーの中でVALID_USER_MAX_CREATED_AT年以前の登録ユーザをフォロー数の降順に並べて
     分析したアカウントをFriendオブジェクトにしてリストで返す
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+    
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
@@ -284,10 +289,14 @@ def analysis_follower_friends(request_user, account, common_count, follower_coun
         sleep(1)
 
 
-def analysis_follower_favorite(request_user, account, common_count, follower_count):
+@background(queue='common_fav')
+def analysis_follower_favorite(request_user_id, account_id, common_count, follower_count):
     """
     フォロワーの共通ファボ分析
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,
@@ -336,10 +345,14 @@ def analysis_follower_favorite(request_user, account, common_count, follower_cou
         sleep(1)
 
 
-def analysis_follower_retweet(request_user, account, common_count, follower_count):
+@background(queue='common_rt')
+def analysis_follower_retweet(request_user_id, account_id, common_count, follower_count):
     """
     共通リツイート分析
     """
+    request_user = User.objects.get(id=request_user_id)
+    account = TwitterAccount.objects.get(id=account_id)
+
     analysis_record = Analysis.create(
         account=account,
         user=request_user,

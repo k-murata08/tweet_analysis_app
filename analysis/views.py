@@ -20,13 +20,14 @@ def common_follow_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            account = TwitterAccount.objects.get(id=request.POST['accounts'])
+            account_id = int(request.POST['accounts'])
 
             analysis_utils.analysis_follower_friends(
-                request.user,
-                account,
+                request.user.id,
+                account_id,
                 int(request.POST['common_count']),
-                int(request.POST['follower_count'])
+                int(request.POST['follower_count']),
+                schedule=5
             )
             return analysis_utils.redirect_index(request)
 
@@ -43,13 +44,14 @@ def common_fav_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            account = TwitterAccount.objects.get(id=request.POST['accounts'])
+            account_id = int(request.POST['accounts'])
 
             analysis_utils.analysis_follower_favorite(
-                request.user,
-                account,
+                request.user.id,
+                account_id,
                 int(request.POST['common_count']),
-                int(request.POST['follower_count'])
+                int(request.POST['follower_count']),
+                schedule=5
             )
             return analysis_utils.redirect_index(request)
 
@@ -66,13 +68,14 @@ def common_rt_form(request):
     if request.method == 'POST':
         form = AnalysisAccountForm(request.POST)
         if form.is_valid():
-            account = TwitterAccount.objects.get(id=request.POST['accounts'])
+            account_id = int(request.POST['accounts'])
 
             analysis_utils.analysis_follower_retweet(
-                request.user,
-                account,
+                request.user.id,
+                account_id,
                 int(request.POST['common_count']),
-                int(request.POST['follower_count'])
+                int(request.POST['follower_count']),
+                schedule=5
             )
             return analysis_utils.redirect_index(request)
 
