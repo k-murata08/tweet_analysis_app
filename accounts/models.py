@@ -26,8 +26,8 @@ class TwitterAccount(models.Model):
         return self.username
 
     @classmethod
-    def create_account(cls, twitter_id, username, image_url):
-        cls.objects.create(twitter_id=twitter_id, username=username, image_url=image_url)
+    def create_account(cls, twitter_id, screen_name, username, image_url):
+        cls.objects.create(twitter_id=twitter_id, screen_name=screen_name, username=username, image_url=image_url)
 
 
 class OathKey(models.Model):

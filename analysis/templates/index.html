@@ -49,6 +49,7 @@
                         <thead>
                         <tr>
                             <th>Twitter ID</th>
+                            <th>Screen Name</th>
                             <th>User Name</th>
                             <th>Icon</th>
                         </tr>
@@ -56,7 +57,15 @@
                         <tbody>
                         {% for account in accounts %}
                         <tr>
-                            <td>{{ account.twitter_id }}</td>
+                            <td>
+                                {{ account.twitter_id }}&nbsp;
+                                <span>
+                                    <a href="https://twitter.com/{{ account.screen_name }}" target="_blank">
+                                        <i class="fa fa-external-link" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                            </td>
+                            <td>{{ account.screen_name }}</td>
                             <td>{{ account.username }}</td>
                             <td><img src="{{ account.image_url }}"></td>
                         </tr>

@@ -55,13 +55,14 @@ def account_add(request):
 def account_confirm(request, screen_name):
     profile = account_utils.get_user_profile(screen_name)
     if request.method == 'POST':
-        TwitterAccount.create_account(profile['id'], profile['name'], profile['profile_image_url'])
+        TwitterAccount.create_account(profile['id'], profile['screen_name'], profile['name'], profile['profile_image_url'])
         return analysis_utils.redirect_index(request)
 
     else:
         try:
             context = {
                 'twitter_id': profile['id'],
+                'screen_name': profile['screen_name'],
                 'name': profile['name'],
                 'image_url': profile['profile_image_url']
             }
