@@ -17,6 +17,7 @@ class Profile(models.Model):
 
 class TwitterAccount(models.Model):
     twitter_id = models.CharField(blank=False, max_length=30)
+    screen_name = models.CharField(blank=False, max_length=30)
     username = models.CharField(blank=False, max_length=30)
     image_url = models.URLField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
