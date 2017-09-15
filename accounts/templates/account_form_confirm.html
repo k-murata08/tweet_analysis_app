@@ -14,24 +14,28 @@
             </div>
             <div class="x_content">
                 <p>以下のアカウントでよろしいですか？</p>
-                <div style="text-align:center">
-                    <img width="100" src="{{ image_url }}">
-                    <div style="margin-top: 10px;">
-                        <h5>ID: {{ twitter_id }}</h5>
-                        <h5>スクリーンネーム: {{ screen_name }}</h5>
-                        <h5>アカウント名: {{ name }}</h5>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                        <img width="100" src="{{ image_url }}">
+                        <div style="margin-top: 10px;">
+                            <h5>ID: {{ twitter_id }}</h5>
+                            <h5>スクリーンネーム: {{ screen_name }}</h5>
+                            <h5>アカウント名: {{ name }}</h5>
+                        </div>
                     </div>
                 </div>
                 <div class="ln_solid"></div>
-                <form id="demo-form2" data-parsley-validate class="form-horizontal" method="post">
-                    {% csrf_token %}
-                    <div class="form-group" class="center-block">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5" style="padding:0px;">
-                            <button class="btn btn-primary" type="button" onclick="history.back()">Back</button>
-                            <button type="submit" class="btn btn-success">Submit</button>
+                <div class="row">
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal" method="post">
+                        {% csrf_token %}
+                        <div class="form-group center-block">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+                                <button class="btn btn-primary" type="button" onclick="history.back()">Back</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
