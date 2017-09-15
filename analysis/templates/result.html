@@ -26,27 +26,31 @@
                         </thead>
                         <tbody>
                         {% for record in analysis %}
-                        <tr>
+                        {% if record.category == category.common_follow %}
+                        <tr data-href="{% url 'common_follow_result_detail' record.pk %}">
                             <td>{{ record.account }}</td>
                             <td>{{ record.user }}</td>
                             <td>{{ record.follower_count }}</td>
                             <td>{{ record.min_common_count }}</td>
-                            <td>
-                                {% if record.category == category.common_follow %}
-                                <a href="{% url 'common_follow_result_detail' record.pk %}" style="width:100%; height:100%; display:block;">
-                                    {{ record.created_at }}
-                                </a>
-                                {% elif record.category == category.common_fav %}
-                                <a href="{% url 'common_fav_result_detail' record.pk %}" style="width:100%; height:100%; display:block;">
-                                    {{ record.created_at }}
-                                </a>
-                                {% else %}
-                                <a href="{% url 'common_rt_result_detail' record.pk %}" style="width:100%; height:100%; display:block;">
-                                    {{ record.created_at }}
-                                </a>
-                                {% endif %}
-                            </td>
+                            <td>{{ record.created_at }}</td>
                         </tr>
+                        {% elif record.category == category.common_fav %}
+                        <tr data-href="{% url 'common_fav_result_detail' record.pk %}">
+                            <td>{{ record.account }}</td>
+                            <td>{{ record.user }}</td>
+                            <td>{{ record.follower_count }}</td>
+                            <td>{{ record.min_common_count }}</td>
+                            <td>{{ record.created_at }}</td>
+                        </tr>
+                        {% else %}
+                        <tr data-href="{% url 'common_rt_result_detail' record.pk %}">
+                            <td>{{ record.account }}</td>
+                            <td>{{ record.user }}</td>
+                            <td>{{ record.follower_count }}</td>
+                            <td>{{ record.min_common_count }}</td>
+                            <td>{{ record.created_at }}</td>
+                        </tr>
+                        {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>

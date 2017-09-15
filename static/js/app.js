@@ -8,3 +8,14 @@ $('#download_csv_btn').click(function() {
     $("#csv_table").table2csv('output', { filename:  filename });
     $("#csv_table").table2csv();
 });
+
+// tr全体をリンクにする
+$('tbody tr[data-href]').addClass('clickable').click( function() {
+    window.location = $(this).attr('data-href');
+}).find('a').hover( function() {
+    $(this).parents('tr').unbind('click');
+}, function() {
+    $(this).parents('tr').click( function() {
+        window.location = $(this).attr('data-href');
+    });
+});
