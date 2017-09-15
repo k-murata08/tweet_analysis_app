@@ -27,7 +27,7 @@
                         <tbody>
                         {% for record in analysis %}
                         {% if record.category == category.common_follow %}
-                        <tr data-href="{% url 'common_follow_result_detail' record.pk %}">
+                        <tr class="link_tr" data-href="{% url 'common_follow_result_detail' record.pk %}">
                             <td>{{ record.account }}</td>
                             <td>{{ record.user }}</td>
                             <td>{{ record.follower_count }}</td>
@@ -35,7 +35,7 @@
                             <td>{{ record.created_at }}</td>
                         </tr>
                         {% elif record.category == category.common_fav %}
-                        <tr data-href="{% url 'common_fav_result_detail' record.pk %}">
+                        <tr class="link_tr" data-href="{% url 'common_fav_result_detail' record.pk %}">
                             <td>{{ record.account }}</td>
                             <td>{{ record.user }}</td>
                             <td>{{ record.follower_count }}</td>
@@ -43,7 +43,7 @@
                             <td>{{ record.created_at }}</td>
                         </tr>
                         {% else %}
-                        <tr data-href="{% url 'common_rt_result_detail' record.pk %}">
+                        <tr class="link_tr" data-href="{% url 'common_rt_result_detail' record.pk %}">
                             <td>{{ record.account }}</td>
                             <td>{{ record.user }}</td>
                             <td>{{ record.follower_count }}</td>

@@ -4201,10 +4201,10 @@ ul.notifications {
 
 
 /** custom **/
-tbody > tr {
+.link_tr {
     cursor:pointer;
 }
-tbody > tr:hover {
+.link_tr:hover {
     color:#dd0000;
     background:#ccc
 }
