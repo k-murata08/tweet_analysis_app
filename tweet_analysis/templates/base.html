@@ -41,11 +41,12 @@
                                     <li><a href="{% url 'index' %}"><i class="fa fa-home"></i> ホーム </a></li>
                                     <li><a><i class="fa fa-user"></i> アカウント <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li><a href="{% url 'account_add' %}">Twitterアカウント登録</a></li>
                                             {% if request.user.profile.role != user_roles.general %}
+                                            <li><a href="{% url 'account_del' %}">Twitterアカウント削除</a></li>
                                             <li><a href="{% url 'user_add' %}">ユーザ登録</a></li>
                                             <li><a href="{% url 'oath_add' %}">認証キー登録</a></li>
                                             {% endif %}
-                                            <li><a href="{% url 'account_add' %}">Twitterアカウント登録</a></li>
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i> 分析 <span class="fa fa-chevron-down"></span></a>

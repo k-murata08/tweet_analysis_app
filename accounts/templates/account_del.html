@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div class="title_left">
+        <h3>アカウント削除</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3>選択</h3>
+            </div>
+            <div class="x_content">
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Twitter ID</th>
+                            <th>Screen Name</th>
+                            <th>User Name</th>
+                            <th>Icon</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for account in accounts %}
+                        <tr>
+                            <td>{{ account.twitter_id }}</td>
+                            <td>{{ account.screen_name }}</td>
+                            <td>{{ account.username }}</td>
+                            <td><img src="{{ account.image_url }}"></td>
+                            <td>
+                                <form action="" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger" type="submit" name="del_id" value="{{ account.id }}">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

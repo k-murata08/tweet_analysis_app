@@ -72,6 +72,19 @@ def account_confirm(request, screen_name):
             return analysis_utils.redirect_index(request)
 
 
+def account_del(request):
+    if request.method == 'POST':
+        account_id =  request.POST['del_id']
+        TwitterAccount.objects.get(id=account_id).delete()
+
+        return analysis_utils.redirect_index(request)
+    else:
+        accounts = TwitterAccount.objects.all()
+        return render(request, 'account_del.html', {
+            'accounts': accounts
+        })
+
+
 def oath_add(request):
     if request.method == 'POST':
         form = OathForm(request.POST)
