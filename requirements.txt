@@ -19,5 +19,5 @@ requests-oauthlib==0.8.0
 six==1.10.0
 static3==0.7.0
 supervisor==3.3.3
-urllib3==1.22
+urllib3==1.26.5
 whitenoise==3.3.0
